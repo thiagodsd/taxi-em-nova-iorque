@@ -3,6 +3,7 @@ from typing import Dict
 
 from kedro.pipeline import Pipeline
 
+from taxi_em_nova_iorque.pipelines import transformacao
 
 def register_pipelines() -> Dict[str, Pipeline]:
     """Register the project's pipelines.
@@ -10,4 +11,10 @@ def register_pipelines() -> Dict[str, Pipeline]:
     Returns:
         A mapping from a pipeline name to a ``Pipeline`` object.
     """
-    return {"__default__": Pipeline([])}
+
+    pipeline_transformacao = transformacao.create_pipeline()
+
+    return {
+        "transformacao" : pipeline_transformacao,
+        "__default__": pipeline_transformacao
+    }
