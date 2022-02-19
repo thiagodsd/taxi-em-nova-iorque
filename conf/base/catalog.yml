@@ -16,9 +16,19 @@ teste:
 treino_limpo:
   type: pandas.CSVDataSet
   filepath: data/03_primary/treino_limpo.csv
-  layer: intermediate
+  layer: primary
 
 teste_limpo:
   type: pandas.CSVDataSet
   filepath: data/03_primary/teste_limpo.csv
-  layer: intermediate
+  layer: primary
+
+treino_features:
+  type: pandas.CSVDataSet
+  filepath: data/04_feature/treino_features.csv
+  layer: feature
+
+teste_features:
+  type: pandas.CSVDataSet
+  filepath: data/04_feature/teste_features.csv
+  layer: feature
