@@ -6,10 +6,13 @@ generated using Kedro 0.17.6
 from kedro.pipeline import Pipeline, node
 from kedro.pipeline.modular_pipeline import pipeline
 
-from .nodes import limpeza, novas_features_simples, novas_features_complexas, concatena
+from .nodes import limpeza, novas_features_simples, novas_features_complexas, concatena, imputacao
 
 
 def create_pipeline(**kwargs) -> Pipeline:
+    r""""
+    transformacao create_pipeline
+    """
     pipeline_limpeza = Pipeline(
         [
             node(
@@ -58,4 +61,15 @@ def create_pipeline(**kwargs) -> Pipeline:
         ]
     )
 
-    return pipeline_limpeza + pipeline_novas_features
+    pipeline_imputacao = Pipeline(
+        [
+            node(
+                imputacao,
+                inputs="treino_features",
+                outputs="treino_final",
+                name="node_treino_imputacao",
+            )
+        ]
+    )
+
+    return pipeline_limpeza + pipeline_novas_features + pipeline_imputacao

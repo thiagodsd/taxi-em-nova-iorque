@@ -49,3 +49,14 @@ modelo_kmeans:
   filepath: data/06_models/modelo_kmeans.pkl
   backend: pickle
   layer: models
+
+treino_final:
+  type: pandas.CSVDataSet
+  filepath: data/05_model_input/treino_final.csv
+  layer: model input
+
+metricas_hiperparametros:
+  type: pandas.ParquetDataSet
+  filepath: data/06_models/metricas_hiperparametros.json
+  versioned: true
+  layer: models

@@ -27,8 +27,12 @@ from math import sin, cos, sqrt, atan2, radians
 import numpy as np
 import pandas as pd
 
-from sklearn.preprocessing import StandardScaler
+from sklearn.impute          import SimpleImputer
+from sklearn.compose         import ColumnTransformer
+from sklearn.preprocessing   import OrdinalEncoder, OneHotEncoder, StandardScaler
+from sklearn.pipeline        import Pipeline
 from sklearn.cluster import KMeans, DBSCAN
+
 
 
 def lat_lon_converter(lat1: float, lon1: float, lat2: float, lon2: float, unit: str) -> float:
@@ -151,3 +155,38 @@ def concatena(data_limpo: pd.DataFrame, data_simples: pd.DataFrame, data_complex
     Concatena tabelas com features construídas às tabelas com informações cruas.
     """
     return pd.concat([data_limpo, data_simples, data_complex], axis=1)
+
+
+def imputacao(data: pd.DataFrame) -> pd.DataFrame:
+    r"""
+    imputacao
+    """
+    # _FILTERS = {
+    #             'int'   : [ [None], [np.dtype('int64')] ],
+    #             'float' : [ [None], [np.dtype('float64')] ],
+    #             'cat'   : [ [None], [np.dtype('object')] ],
+    #             'date'  : [ [None], [np.dtype('<M8[ns]')] ]
+    #         }
+
+    # for k in _FILTERS:
+    #     _FILTERS[k][0] = set(train.dtypes[ train.dtypes.isin(_FILTERS[k][1]) ].index.to_list())
+    #     print( k, _FILTERS[k][0] )
+
+    # int_pipeline   = Pipeline([ ('imputer', SimpleImputer(strategy="constant", fill_value=-1)) ])
+    # float_pipeline = Pipeline([ 
+    #                         ('imputer'   , SimpleImputer(strategy="median")),
+    #                         ('std_scaler', StandardScaler())
+    #                         ])
+
+    # full_pipeline = ColumnTransformer([
+    #                                 ('int'  , int_pipeline,    list(_FILTERS['int'][0]) ),
+    #                                 ('float', float_pipeline,  list(_FILTERS['float'][0]) ) ,
+    #                                 ('cat'  , OneHotEncoder(), list(_FILTERS['cat'][0]) )
+    #                                 ])
+    
+    # train_x = full_pipeline.fit_transform( train[set.union(*[_FILTERS['int'][0], _FILTERS['float'][0], _FILTERS['cat'][0]])] )
+    # train_y = df_train[['trip_duration']]
+
+    # train_y['trip_duration'] = train_y['trip_duration'].mask(train_y['trip_duration'].lt(0), 0)
+
+    return None
