@@ -29,7 +29,5 @@ python:
       path: .
       extra_requirements:
         - docs
-    - method: pip
-      path: .
-      extra_requirements:
-        - src/dist
+    - method: setuptools
+      path: src/dist
