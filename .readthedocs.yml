@@ -29,9 +29,7 @@ python:
       path: .
       extra_requirements:
         - docs
-        - src/dist/
     - method: pip
-      path: src/dist/
-      extra_requirements:
-        - taxi_em_nova_iorque-0.1-py3-none-any.whl
-  system_packages: true
+        path: .
+        extra_requirements:
+          - src/dist
