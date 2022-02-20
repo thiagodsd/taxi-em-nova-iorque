@@ -25,10 +25,8 @@ python:
   install:
     # Install package using pip for the build (needed for autodoc)
     - requirements: src/requirements.txt
+    - requirements: src/dist/taxi_em_nova_iorque-0.1-py3-none-any.whl
     - method: pip
       path: .
       extra_requirements:
         - docs
-    - method: pip
-      path: src/dist/taxi_em_nova_iorque-0.1-py3-none-any.whl
-  system_packages: true
