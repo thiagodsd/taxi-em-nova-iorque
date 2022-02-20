@@ -30,6 +30,6 @@ python:
       extra_requirements:
         - docs
     - method: pip
-        path: .
-        extra_requirements:
-          - src/dist
+      path: .
+      extra_requirements:
+        - src/dist
