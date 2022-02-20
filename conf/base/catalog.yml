@@ -13,12 +13,39 @@ teste:
   filepath: data/01_raw/test.csv
   layer: raw
 
+treino_sample:
+  type: pandas.CSVDataSet
+  filepath: data/02_intermediate/treino_sample.csv
+  layer: intermediate
+
 treino_limpo:
   type: pandas.CSVDataSet
   filepath: data/03_primary/treino_limpo.csv
-  layer: intermediate
+  layer: primary
 
 teste_limpo:
   type: pandas.CSVDataSet
   filepath: data/03_primary/teste_limpo.csv
-  layer: intermediate
+  layer: primary
+
+treino_features:
+  type: pandas.CSVDataSet
+  filepath: data/04_feature/treino_features.csv
+  layer: feature
+
+teste_features:
+  type: pandas.CSVDataSet
+  filepath: data/04_feature/teste_features.csv
+  layer: feature
+
+modelo_dbscan:
+  type: pickle.PickleDataSet
+  filepath: data/06_models/modelo_dbscan.pkl
+  backend: pickle
+  layer: models
+
+modelo_kmeans:
+  type: pickle.PickleDataSet
+  filepath: data/06_models/modelo_kmeans.pkl
+  backend: pickle
+  layer: models
