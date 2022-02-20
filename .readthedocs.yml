@@ -29,5 +29,5 @@ python:
       path: .
       extra_requirements:
         - docs
-    - method: setuptools
-      path: src
+    # - method: setuptools
+    #   path: src
