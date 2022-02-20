@@ -37,7 +37,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans, DBSCAN
 
 
-def lat_lon_converter(lat1, lon1, lat2, lon2, unit):
+def lat_lon_converter(lat1:float, lon1:float, lat2:float, lon2:float, unit:str) -> float:
     """
     ref: https://stackoverflow.com/questions/19412462/getting-distance-between-two-points-based-on-latitude-longitude
     """
@@ -77,13 +77,15 @@ def dbscan_predict(model, X):
 
 
 def limpeza(data: pd.DataFrame) -> pd.DataFrame:
-    """limpeza"""
+    r"""
+    Elimina colunas com informações de identificação.
+    """
     return data.drop(columns=["id"])
 
 
 def novas_features_simples(data: pd.DataFrame) -> pd.DataFrame:
-    """
-    novas_features_simples
+    r"""
+    Constrói novas features a partir de colunas com informações geoespaciais e temporais.
     """
     # features temporais
     data['pickup_dt'] = pd.to_datetime(data['pickup_datetime'], format='%Y-%m-%d %H:%M:%S', errors='ignore')
@@ -110,12 +112,12 @@ def novas_features_simples(data: pd.DataFrame) -> pd.DataFrame:
     return data[novas_features]
 
 
-def novas_features_complexas(data: pd.DataFrame, fit_obs: bool) -> Dict:
-    """
-    novas_features_complexas
+def novas_features_complexas(data: pd.DataFrame, fit_obs: bool, frac_obs: float) -> Dict:
+    r"""
+    Constrói novas features a partir de modelos aplicados colunas com informações geoespaciais.
     """
     coordenadas = ['pickup_latitude', 'pickup_longitude', 'dropoff_latitude', 'dropoff_longitude']
-    data_sample = data[coordenadas].sample(frac=0.5, random_state=22)
+    data_sample = data[coordenadas].sample(frac=frac_obs, random_state=22)
     X = StandardScaler().fit_transform(data_sample.values)
 
     if fit_obs == True:
@@ -134,7 +136,7 @@ def novas_features_complexas(data: pd.DataFrame, fit_obs: bool) -> Dict:
 
 
 def concatena(data_limpo: pd.DataFrame, data_simples: pd.DataFrame, data_complex: pd.DataFrame) -> pd.DataFrame:
-    """
-    novas_features_complexas
+    r"""
+    Concatena tabelas com features construídas às tabelas com informações cruas.
     """
     return pd.concat([data_limpo, data_simples, data_complex], axis=1)

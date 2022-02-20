@@ -42,7 +42,7 @@ def create_pipeline(**kwargs) -> Pipeline:
             ),
             node(
                 novas_features_complexas, 
-                inputs = ["tabela_limpa", "params:complex_treino"],
+                inputs = ["tabela_limpa", "params:complex_treino", "params:complex_frac"],
                 outputs = dict(
                     features_complexas = "tabela_feature_complexa",
                     modelo_dbscan = "modelo_dbscan",
