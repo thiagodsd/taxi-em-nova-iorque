@@ -3,80 +3,60 @@ This is a boilerplate pipeline 'transformacao'
 generated using Kedro 0.17.6
 """
 
-from xml.etree.ElementTree import PI
 from kedro.pipeline import Pipeline, node
 from kedro.pipeline.modular_pipeline import pipeline
 
-from .nodes import limpeza, novas_features_simples, novas_features_complexas, concatena
+from .nodes import (
+    limpeza, 
+    novas_features_simples, 
+    novas_features_complexas, 
+    concatena
+)
 
 
 def create_pipeline(**kwargs) -> Pipeline:
-    template_treino = Pipeline(
+    pipeline_limpeza = Pipeline(
         [
             node(
                 limpeza, 
                 inputs = "treino",
-                outputs = "tabela_limpa"
-            ),
-            node(
-                novas_features_simples, 
-                inputs = "tabela_limpa",
-                outputs = "tabela_feature_simples"
-            ),
-            node(
-                novas_features_complexas, 
-                inputs = "tabela_limpa",
-                outputs = "tabela_feature_complexa"
-            ),
-            node(
-                concatena, 
-                inputs = ["tabela_feature_simples", "tabela_feature_complexa"],
-                outputs = "treino_features"
-            ),
+                outputs = "tabela_limpa",
+                name = "node_treino_limpeza"
+            )
         ]
     )
 
-    template_teste = Pipeline(
+    pipeline_novas_features = Pipeline(
         [
             node(
                 limpeza, 
-                inputs = "teste",
-                outputs = "tabela_limpa"
+                inputs = "treino",
+                outputs = "tabela_limpa",
+                name = "node_treino_limpeza"
             ),
             node(
                 novas_features_simples, 
                 inputs = "tabela_limpa",
-                outputs = "tabela_feature_simples"
+                outputs = "tabela_feature_simples",
+                name = "node_treino_novas_features_simples"
             ),
             node(
                 novas_features_complexas, 
-                inputs = "tabela_limpa",
-                outputs = "tabela_feature_complexa"
+                inputs = ["tabela_limpa", "params:complex_treino"],
+                outputs = dict(
+                    features_complexas = "tabela_feature_complexa",
+                    modelo_dbscan = "modelo_dbscan",
+                    modelo_kmeans = "modelo_kmeans"
+                ),
+                name = "node_treino_novas_features_complexas"
             ),
             node(
                 concatena, 
-                inputs = ["tabela_feature_simples", "tabela_feature_complexa"],
-                outputs = "teste_features"
-            ),
+                inputs = ["tabela_limpa", "tabela_feature_simples", "tabela_feature_complexa"],
+                outputs = "treino_features",
+                name = "node_treino_concatena"
+            )
         ]
     )
 
-    treino_pipeline = pipeline(
-        pipe = template_treino,
-        inputs="treino",
-        namespace="trata_treino"
-    )
-
-    teste_pipeline = pipeline(
-        pipe = template_teste,
-        inputs="teste",
-        namespace="trata_teste"
-    )
-
-
-    pipeline_final = pipeline(
-        pipe = treino_pipeline + teste_pipeline,
-        namespace="prepara_dados"
-    )    
-
-    return pipeline_final
+    return pipeline_limpeza + pipeline_novas_features
