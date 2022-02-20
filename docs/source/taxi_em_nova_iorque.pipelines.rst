@@ -12,6 +12,4 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   taxi_em_nova_iorque.pipelines.producao
    taxi_em_nova_iorque.pipelines.transformacao
-   taxi_em_nova_iorque.pipelines.treino
